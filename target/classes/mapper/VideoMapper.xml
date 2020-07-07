@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xdclass.mybatis.dao.VideoMapper">
+
+    <insert id="add" parameterType="com.xdclass.mybatis.domain.Video">
+        insert into video(title,summary,cover_img,price,c_id,point)
+        values (#{title,jdbcType=VARCHAR},#{summary,jdbcType=VARCHAR},#{coverImg,jdbcType=VARCHAR},
+                #{price,jdbcType=INTEGER},#{cId,jdbcType=INTEGER},#{point,jdbcType=FLOAT});
+    </insert>
+</mapper>
