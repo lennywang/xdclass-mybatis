@@ -5,9 +5,64 @@
 
 <mapper namespace="com.xdclass.mybatis.dao.VideoMapper">
 
+    <sql id="col">
+        id, title, summary, cover_img, price, create_time, c_id, point
+    </sql>
+
+    <select id="selectById" resultType="com.xdclass.mybatis.domain.Video">
+        SELECT
+        <include refid="col"/>
+        FROM video WHERE id=#{video_id}
+    </select>
+
+    <select id="selectListByXML" resultType="com.xdclass.mybatis.domain.Video">
+        SELECT
+        <include refid="col"/>
+        FROM video
+    </select>
+
+    <select id="selectByPointAndTitleLike" resultType="com.xdclass.mybatis.domain.Video">
+        SELECT
+            <include refid="col"/>
+        FROM video
+        WHERE point=#{point} and title like concat('%',#{title},'%')
+    </select>
+
+
     <insert id="add" parameterType="com.xdclass.mybatis.domain.Video">
-        insert into video(title,summary,cover_img,price,c_id,point)
-        values (#{title,jdbcType=VARCHAR},#{summary,jdbcType=VARCHAR},#{coverImg,jdbcType=VARCHAR},
-                #{price,jdbcType=INTEGER},#{cId,jdbcType=INTEGER},#{point,jdbcType=FLOAT});
+        INSERT INTO video (title, summary, cover_img, price, c_id, point)
+        VALUES (#{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{coverImg,jdbcType=VARCHAR},
+                #{price,jdbcType=INTEGER}, #{cId,jdbcType=INTEGER}, #{point,jdbcType=FLOAT});
     </insert>
+
+    <insert id="addBatch" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT INTO video
+        ( title, summary, cover_img, price, create_time, c_id, point )
+        values
+            <foreach collection="list" item="item" index="index" separator=",">
+                (
+                #{item.title},
+                #{item.summary},
+                #{item.coverImg},
+                #{item.price},
+                now(),
+                #{item.cId},
+                #{item.point}
+                )
+            </foreach>
+    </insert>
+
+
+    <update id="updateVideo" parameterType="com.xdclass.mybatis.domain.Video">
+        update video
+        set title=#{title},
+            summary=#{summary},
+            cover_img=#{coverImg},
+            price=#{price},
+            create_time=now(),
+            c_id=#{cId},
+            point=#{point}
+        where id = #{id};
+    </update>
+
 </mapper>
