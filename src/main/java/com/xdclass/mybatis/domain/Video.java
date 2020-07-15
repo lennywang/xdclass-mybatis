@@ -5,6 +5,8 @@ package com.xdclass.mybatis.domain;
  * @date 2020/7/6 23:18
  */
 
+import java.util.Date;
+
 /**
  *
  **/
@@ -18,6 +20,8 @@ public class Video {
     private String coverImg;
 
     private String price;
+
+    private Date createTime;
 
     private int cId;
 
@@ -61,6 +65,14 @@ public class Video {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public int getcId() {

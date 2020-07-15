@@ -45,7 +45,7 @@
             #{item.summary},
             #{item.coverImg},
             #{item.price},
-            now(),
+            #{item.createTime},
             #{item.cId},
             #{item.point}
             )
@@ -59,7 +59,7 @@
             summary     = #{summary},
             cover_img   = #{coverImg},
             price       = #{price},
-            create_time = now(),
+            create_time = #{createTime},
             c_id        = #{cId},
             point       = #{point}
         WHERE id = #{id};
@@ -80,8 +80,8 @@
             <if test="null != price">
                 price=#{price},
             </if>
-            <if test="null != createime">
-                create_time=now(),
+            <if test="null != createTime">
+                create_time=#{createTime},
             </if>
             <if test="null != cId">
                 c_id=#{cId},
@@ -94,6 +94,6 @@
     </update>
 
     <delete id="deleteByCreateTimeAndPrice" parameterType="java.util.Map">
-        DELETE FROM VIDEO WHERE CREATE_TIME>#{createTime} AND PRICE <#{price}
+                DELETE FROM VIDEO WHERE CREATE_TIME<![CDATA[>]]>#{createTime} AND price <![CDATA[>]]> #{price}
     </delete>
 </mapper>

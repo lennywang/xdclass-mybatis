@@ -15,10 +15,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  *
@@ -55,42 +54,63 @@ public class App {
             //int count = videoMapper.add(video);
             //System.out.println("新增条数：" + count);
 
-             Video video1 = new Video();
-            video1.setTitle("小滴课堂面试专题900道111");
-            video1.setSummary("这是面试专题概要111");
-            video1.setCoverImg("xdclass.net/aaa.png");
-            video1.setPrice("200");
-            video1.setcId(1);
-            video1.setPoint(1);
+//             Video video1 = new Video();
+//            video1.setTitle("小滴课堂面试专题900道111");
+//            video1.setSummary("这是面试专题概要111");
+//            video1.setCoverImg("xdclass.net/aaa.png");
+//            video1.setPrice("200");
+//            video1.setCreateTime(new Date());
+//            video1.setcId(1);
+//            video1.setPoint(1);
+//
+//            Video video2 = new Video();
+//            video2.setTitle("小滴课堂面试专题900道222");
+//            video2.setSummary("这是面试专题概要222");
+//            video2.setCoverImg("xdclass.net/aaa.png");
+//            video2.setPrice("200");
+//            video2.setCreateTime(new Date());
+//            video2.setcId(1);
+//            video2.setPoint(1);
+//
+//            List<Video> videoList = new ArrayList<>();
+//            videoList.add(video1);
+//            videoList.add(video2);
+//            int count = videoMapper.addBatch(videoList);
+//            System.out.println("新增条数："+count);
 
-            Video video2 = new Video();
-            video2.setTitle("小滴课堂面试专题900道222");
-            video2.setSummary("这是面试专题概要222");
-            video2.setCoverImg("xdclass.net/aaa.png");
-            video2.setPrice("200");
-            video2.setcId(1);
-            video2.setPoint(1);
-
-            List<Video> videoList = new ArrayList<>();
-            int count = videoMapper.addBatch(videoList);
-            System.out.println("新增条数："+count);
 
 //            Video video= new Video();
-//            video.setId(49);
+//            video.setId(58);
 //            video.setTitle("update title test");
 //            video.setCoverImg("update coverImg test");
-//            videoMapper.updateVideo(video);
+//            video.setCreateTime(new Date());
+//            int count = videoMapper.updateVideo(video);
+//            System.out.println("更新条数："+count);
 
 //            Video video= new Video();
-//            video.setId(50);
+//            video.setId(60);
 //            video.setTitle("update title test");
 //            video.setCoverImg("update coverImg test");
-//            videoMapper.updateVideoSelective(video);
+//            video.setPrice(250+"");
+//            video.setCreateTime(new Date());
+//            video.setPoint(9.2f);
+//            int count = videoMapper.updateVideoSelective(video);
+//            System.out.println("更新条数："+count);
+
+
 
             Map<String,Object> map=new HashMap<>();
-            map.put("createTime","");
-            map.put("price",9);
-            int num = videoMapper.deleteByCreateTimeAndPrice(map);
+            String dateStr="2020-07-12";
+            Date date =null;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                date = sdf.parse(dateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            map.put("createTime",date);
+            map.put("price",200);
+            int count = videoMapper.deleteByCreateTimeAndPrice(map);
             System.out.println("删除条数："+count);
 
 
