@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdclass.mybatis.dao.VideoOrderMapper">
+    <resultMap id="VideoOrderResultMap" type="VideoOrder">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="total_fee" property="totalFee" jdbcType="INTEGER"/>
+        <result column="video_id" property="videoId" jdbcType="INTEGER"/>
+        <result column="video_title" property="videoTitle" jdbcType="VARCHAR"/>
+        <result column="video_img" property="videoImg" jdbcType="VARCHAR"/>
+        <!--
+         association 配置属性一对一
+         property 对应videoOrder里面的user属性名
+         javType 这个属性的类型
+         -->
+        <association property="user" javaType="User">
+            <id column="user_id" property="id" jdbcType="INTEGER"/>
+
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+            <result column="head_img" property="headImg" jdbcType="VARCHAR"/>
+            <result column="" property="createTime" jdbcType="DATE"/>
+            <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <select id="queryVideoOrderList" resultMap="VideoOrderResultMap">
+        SELECT
+            O.ID ID,
+            O.USER_ID,
+            O.OUT_TRADE_NO,
+            O.CREATE_TIME,
+            O.STATE,
+            O.TOTAL_FEE,
+            O.VIDEO_ID,
+            O.VIDEO_TITLE,
+            O.VIDEO_IMG,
+            U.NAME,
+            U.HEAD_IMG,
+            U.CREATE_TIME C_TIME,
+            U.PHONE
+        FROM VIDEO_ORDER O LEFT JOIN USER U ON O.USER_ID = U.ID
+    </select>
+
+    <resultMap id="OrderVideoResultMap" type="User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="pwd" property="pwd" jdbcType="VARCHAR"/>
+        <result column="head_img" property="headImg" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <!--
+        property 填写pojo类中集合类属性的名称
+        ofType 集合里面的pojo对象
+        -->
+        <collection property="videoOrderList" ofType="VideoOrder">
+            <!--配置主键，管理order的唯一标识-->
+            <id column="order_id" property="id"/>
+            <result column="out_trade_no" property="outTradeNo"/>
+            <result column="user_id" property="userId"/>
+            <result column="state" property="state"/>
+            <result column="create_time" property="createTime"/>
+            <result column="total_fee" property="totalFee"/>
+            <result column="video_id" property="videoId"/>
+            <result column="video_title" property="videoTitle"/>
+            <result column="video_img" property="videoImg"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryUserOrder" resultMap="OrderVideoResultMap">
+        SELECT
+            U.ID,
+            U.NAME,
+            U.HEAD_IMG,
+            U.CREATE_TIME,
+            U.PHONE,
+            O.ID ORDER_ID,
+            O.OUT_TRADE_NO,
+            O.USER_ID,
+            O.CREATE_TIME,
+            O.STATE,
+            O.TOTAL_FEE,
+            O.VIDEO_ID,
+            O.VIDEO_TITLE,
+            O.VIDEO_IMG
+        FROM USER U LEFT JOIN VIDEO_ORDER O ON U.ID = O.USER_ID
+    </select>
+</mapper>

@@ -68,4 +68,11 @@ public interface VideoMapper {
      * @return int
     */
     int deleteByCreateTimeAndPrice(Map<String, Object> map);
+
+    /**
+     * @Description: 根据id查询视频
+     * @param id
+     * @return com.xdclass.mybatis.domain.Video
+    */
+    Video selectBaseFieldByIdWithResultMap(@Param("video_id")int id);
 }

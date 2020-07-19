@@ -7,7 +7,10 @@ package com.xdclass.mybatis;
 
 
 import com.xdclass.mybatis.dao.VideoMapper;
+import com.xdclass.mybatis.dao.VideoOrderMapper;
+import com.xdclass.mybatis.domain.User;
 import com.xdclass.mybatis.domain.Video;
+import com.xdclass.mybatis.domain.VideoOrder;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -31,6 +34,7 @@ public class App {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
             VideoMapper videoMapper = sqlSession.getMapper(VideoMapper.class);
+            VideoOrderMapper videoOrderMapper = sqlSession.getMapper(VideoOrderMapper.class);
 
             //Video video = videoMapper.selectById(44);
             //System.out.println(video);
@@ -99,21 +103,28 @@ public class App {
 
 
 
-            Map<String,Object> map=new HashMap<>();
-            String dateStr="2020-07-12";
-            Date date =null;
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                date = sdf.parse(dateStr);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            map.put("createTime",date);
-            map.put("price",200);
-            int count = videoMapper.deleteByCreateTimeAndPrice(map);
-            System.out.println("删除条数："+count);
+//            Map<String,Object> map=new HashMap<>();
+//            String dateStr="2020-07-12";
+//            Date date =null;
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//            try {
+//                date = sdf.parse(dateStr);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            map.put("createTime",date);
+//            map.put("price",200);
+//            int count = videoMapper.deleteByCreateTimeAndPrice(map);
+//            System.out.println("删除条数："+count);
 
+//            Video video = videoMapper.selectBaseFieldByIdWithResultMap(30);
+//            System.out.println(video);
 
+//            List<User> userList = videoOrderMapper.queryUserOrder();
+//            System.out.println(userList);
+
+            List<VideoOrder> videoOrderList = videoOrderMapper.queryVideoOrderList();
+            System.out.println(videoOrderList);
         }
     }
 }

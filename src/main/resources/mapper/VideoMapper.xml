@@ -94,6 +94,27 @@
     </update>
 
     <delete id="deleteByCreateTimeAndPrice" parameterType="java.util.Map">
-                DELETE FROM VIDEO WHERE CREATE_TIME<![CDATA[>]]>#{createTime} AND price <![CDATA[>]]> #{price}
+        DELETE FROM VIDEO
+        WHERE CREATE_TIME<![CDATA[ >]]> #{createTime} AND price <![CDATA[>]]> #{price}
     </delete>
+    <!--id,title,summary,cover_img,price,create_time,c_id,point-->
+    <resultMap id="videoResultMap" type="Video">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+
+        <result column="video_title" property="title" jdbcType="VARCHAR"/>
+        <result column="summary" property="summary" jdbcType="VARCHAR"/>
+        <result column="cover_img" property="coverImg" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectBaseFieldByIdWithResultMap" resultMap="videoResultMap">
+        SELECT
+            id,
+            title video_title,
+            summary,
+            cover_img
+        FROM video
+        WHERE id = #{video_id}
+    </select>
+
+
 </mapper>
